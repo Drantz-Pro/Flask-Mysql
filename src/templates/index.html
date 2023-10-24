@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+    <h1>Hola mundo</h1>
+
+    <form action="/addNote" method="post">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description">
+
+        <input type="submit" value="Enviar">
+    </form>
+
+
+    <table class="table table-striped table-hover table-borderless " >
+        <thead>
+            <tr>
+                <th scope="col" >ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Edit note</th>
+                <th scope="col">Delete note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in lista %}
+                <tr>
+                    <td scope="row">{{x.id}}</td>
+                    <td>{{x.title}}</td>
+                    <td>{{x.description}}</td>
+                    <td><button type="button" class="btn btn-primary" id="btn-edit{{x.id}}" data-bs-toggle="modal" data-bs-target="#modal{{x.id}}">Edit</button></td>
+                    <td><a href="{{url_for('deleteNote',id=x.id)}}" class="btn btn-danger" >Delete</a></td>
+                </tr>    
+    
+            <!-- Modal -->
+                <div class="modal fade" id="modal{{x.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/updateNote/{{x.id}}" method="POST">
+                                <label>Title</label>
+                                <input type="text" class="form-control mb-3" name="title" id="title" value="{{x.title}}">
+                                <label>Description</label>
+                                <input type="text" class="form-control mb-3" name="description" id="description" value="{{x.description}}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</body>
+</html>
